@@ -53,7 +53,6 @@ fun HomeScreen(
             ErrorScreen(modifier = modifier.fillMaxSize())
         }
     }
-//    ResultScreen(marsUiState, modifier.padding(top = contentPadding.calculateTopPadding()))
 }
 
 @Composable
