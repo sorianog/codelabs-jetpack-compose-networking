@@ -29,11 +29,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.example.marsphotos.R
+import com.example.marsphotos.network.MarsPhoto
 import com.example.marsphotos.ui.theme.MarsPhotosTheme
 
 @Composable
@@ -47,7 +53,7 @@ fun HomeScreen(
             LoadingScreen(modifier = modifier.fillMaxSize())
         }
         is MarsUiState.Success -> {
-            ResultScreen(marsUiState.photos, modifier = modifier.fillMaxWidth())
+            MarsPhotoCard(photo = marsUiState.photos, modifier = modifier.fillMaxSize())
         }
         is MarsUiState.Error -> {
             ErrorScreen(modifier = modifier.fillMaxSize())
@@ -97,4 +103,19 @@ fun ResultScreenPreview() {
     MarsPhotosTheme {
         ResultScreen(stringResource(R.string.placeholder_result))
     }
+}
+
+@Composable
+fun MarsPhotoCard(photo: MarsPhoto, modifier: Modifier = Modifier) {
+    AsyncImage(
+        model = ImageRequest.Builder(context = LocalContext.current)
+            .data(photo.imgSrc)
+            .crossfade(true)
+            .build(),
+        error = painterResource(R.drawable.ic_broken_image),
+        placeholder = painterResource(R.drawable.loading_img),
+        contentDescription = stringResource(R.string.mars_photo),
+        contentScale = ContentScale.Crop,
+        modifier = modifier
+    )
 }
