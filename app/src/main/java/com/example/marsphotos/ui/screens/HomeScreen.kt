@@ -62,7 +62,7 @@ fun HomeScreen(
         }
 
         is MarsUiState.Success -> {
-            PhotosGridScreen(marsUiState.photos, modifier)
+            PhotosGridScreen(marsUiState.photos, contentPadding = contentPadding, modifier = modifier.fillMaxWidth())
         }
 
         is MarsUiState.Error -> {
